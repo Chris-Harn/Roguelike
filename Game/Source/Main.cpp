@@ -1,10 +1,26 @@
+#include "Engine.h"
 
-#include "GameObject.h"
+enum PROTO {
+    WINDOW_WIDTH = 640,
+    WINDOW_HEIGHT = 1200,
+    TARGET_FPS = 60,
+    OPENGL_MAJOR_VERISON = 4,
+    OPENGL_MINOR_VERSION = 6,
+};
 
-#include <iostream>
-
-int main() {
-    std::cout << "Program started without issue." << std::endl;
+int main( int argc, char *argv[] ) {
+    if( TheEngine::Instance()->Init( "Roguelike Game",
+        WINDOW_WIDTH,
+        WINDOW_HEIGHT,
+        TARGET_FPS,
+        OPENGL_MAJOR_VERISON,
+        OPENGL_MINOR_VERSION ) == true ) {
+        while( TheEngine::Instance()->Running() ) {
+            TheEngine::Instance()->HandleEvents();
+            TheEngine::Instance()->Render();
+        }
+    }
+    TheEngine::Instance()->CleanUp();
 
     return 0;
 }

@@ -1,7 +1,7 @@
 #ifndef __LOADERPARAMS__
 #define __LOADERPARAMS__
 
-#include <string> std::string
+#include <string> // std::string
 
 class LoaderParams {
 public:
