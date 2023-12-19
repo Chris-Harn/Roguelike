@@ -1,3 +1,6 @@
+
+#include "GameObject.h"
+
 #include <iostream>
 
 int main() {
