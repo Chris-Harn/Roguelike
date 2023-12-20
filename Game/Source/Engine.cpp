@@ -1,5 +1,6 @@
 #include "Engine.h"
 
+#include "BasicLogger.h"
 #include "Logger.h"
 
 #include <iostream>
@@ -16,6 +17,7 @@ Engine::Engine() {
 
 bool Engine::Init( const char *title, int windowWidth, int windowHeight, int targetFps ) {
 	std::cout << "Inside Init." << std::endl;
+	TheBasicLogger::Instance()->Log( LogPriority::TraceP, "Inside Init." );
 
 	try { m_pWindow = new Window(); }
 	catch( const std::bad_alloc &e ) {
