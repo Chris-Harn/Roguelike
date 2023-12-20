@@ -1,6 +1,8 @@
 #ifndef __ENGINE_H__
 #define __ENGINE_H__
 
+#include "OpenGL/Window.h"
+
 class Engine {
 public:
     static Engine *Instance() {
@@ -10,12 +12,15 @@ public:
         return s_pInstance;
     }
 
-    bool Init( const char *title, int windowWidth, int windowHeight, int targetFPS, int majorVersionOGL, int minorVersionOGL );
+    bool Init( const char *title, int windowWidth, int windowHeight, int targetFPS );
     void HandleEvents();
     void Render();
     void CleanUp();
 
     bool Running();
+
+    // OpenGL Objects
+    Window *m_pWindow;
 private:
     Engine();
     ~Engine() {}

@@ -11,15 +11,19 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Source\Logger.cpp" />
     <ClCompile Include="Source\Engine.cpp" />
     <ClCompile Include="Source\LoaderParams.cpp" />
     <ClCompile Include="Source\GameObject.cpp" />
     <ClCompile Include="Source\Main.cpp" />
+    <ClCompile Include="Source\OpenGL\Window.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Include\Engine.h" />
     <ClInclude Include="Include\GameObject.h" />
     <ClInclude Include="Include\LoaderParams.h" />
+    <ClInclude Include="Include\OpenGL\Window.h" />
+    <ClInclude Include="Include\Logger.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
@@ -58,13 +62,15 @@
     <LinkIncremental>true</LinkIncremental>
     <OutDir>$(SolutionDir)\Bin\$(Platform)\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)\Bin\Intermediates\$(Platform)\$(Configuration)\</IntDir>
-    <IncludePath>$(SolutionDir)\Game\Include;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)\Game\Include;$(SolutionDir)\External Dependances\GLFW\x64\glfw-3.3.8.bin.WIN64\include;$(SolutionDir)\External Dependances\GLEW\x64\glew-2.1.0\include;$(SolutionDir)\External Dependances\FreeType\x64\include;$(SolutionDir)\External Dependances\GLM\x64\include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)\External Dependances\GLFW\x64\glfw-3.3.8.bin.WIN64\lib-vc2019;$(SolutionDir)\External Dependances\GLEW\x64\glew-2.1.0\lib;$(SolutionDir)\External Dependances\FreeType\x64\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
     <OutDir>$(SolutionDir)\Bin\$(Platform)\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)\Bin\Intermediates\$(Platform)\$(Configuration)\</IntDir>
-    <IncludePath>$(SolutionDir)\Game\Include;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)\Game\Include;$(SolutionDir)\External Dependances\GLFW\x64\glfw-3.3.8.bin.WIN64\include;$(SolutionDir)\External Dependances\GLEW\x64\glew-2.1.0\include;$(SolutionDir)\External Dependances\FreeType\x64\include;$(SolutionDir)\External Dependances\GLM\x64\include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)\External Dependances\GLFW\x64\glfw-3.3.8.bin.WIN64\lib-vc2019;$(SolutionDir)\External Dependances\GLEW\x64\glew-2.1.0\lib;$(SolutionDir)\External Dependances\FreeType\x64\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -76,6 +82,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>opengl32.lib;glew32.lib;glfw3.lib;freetype.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -92,6 +99,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>opengl32.lib;glew32.lib;glfw3.lib;freetype.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

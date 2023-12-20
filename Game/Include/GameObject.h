@@ -1,5 +1,5 @@
-#ifndef __GAMEOBJECT__
-#define __GAMEOBJECT__
+#ifndef __GAMEOBJECT_H__
+#define __GAMEOBJECT_H__
 
 #include "LoaderParams.h"
 

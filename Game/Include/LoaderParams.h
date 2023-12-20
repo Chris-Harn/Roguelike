@@ -1,5 +1,5 @@
-#ifndef __LOADERPARAMS__
-#define __LOADERPARAMS__
+#ifndef __LOADERPARAMS_H__
+#define __LOADERPARAMS_H__
 
 #include <string> // std::string
 
