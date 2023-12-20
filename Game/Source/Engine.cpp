@@ -1,9 +1,8 @@
 #include "Engine.h"
 
 #include "BasicLogger.h"
-#include "Logger.h"
 
-#include <iostream>
+#include <iostream> // std::bac_alloc
 
 Engine *Engine::s_pInstance = 0;
 
@@ -16,21 +15,17 @@ Engine::Engine() {
 }
 
 bool Engine::Init( const char *title, int windowWidth, int windowHeight, int targetFps ) {
-	std::cout << "Inside Init." << std::endl;
-	TheBasicLogger::Instance()->Log( "Inside Init." );
-
 	try { m_pWindow = new Window(); }
 	catch( const std::bad_alloc &e ) {
 		(void)e;
-		TheLogger::Instance()->LogError( (const char *)"*** Window failed to have memory allocated. ***" );
+		TheBasicLogger::Instance()->Log( "*** Window failed to have memory allocated. ***" );
 		return false;
 	}
 	if( m_pWindow->Initialization( windowWidth,
 		windowHeight,
 		title,
-		0,
 		nullptr ) == false ) {
-		TheLogger::Instance()->LogError( (const char *)"*** Exited Program ***" );
+		TheBasicLogger::Instance()->Log( "*** Exited Program ***" );
 		return false;
 	}
 	m_pWindow->GetVersion();

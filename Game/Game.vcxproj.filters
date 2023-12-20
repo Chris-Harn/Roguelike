@@ -30,9 +30,6 @@
     <ClCompile Include="Source\OpenGL\Window.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Logger.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Source\BasicLogger.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -48,9 +45,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Include\OpenGL\Window.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\Logger.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Include\BasicLogger.h">

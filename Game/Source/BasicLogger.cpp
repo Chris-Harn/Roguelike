@@ -32,6 +32,23 @@ void BasicLogger::Log( const char *message, LogPriority priority ) {
         case LogPriority::ErrorP: FILE << "Error: \t"; break;
         case LogPriority::FatalP: FILE << "Fatal: \t"; break;
         }
+
+        FILE << message << std::endl;
+        FILE.close();
+    }
+}
+
+void BasicLogger::LogTime( const char *message, LogPriority priority ) {
+    if( priority >= m_verbosity ) {
+        std::ofstream FILE( m_filepath, std::ios_base::app );
+        switch( priority ) {
+        case LogPriority::TraceP: FILE << "Trace: \t"; break;
+        case LogPriority::DebugP: FILE << "Debug: \t"; break;
+        case LogPriority::InfoP: FILE << "Info: \t"; break;
+        case LogPriority::WarnP: FILE << "Warn: \t"; break;
+        case LogPriority::ErrorP: FILE << "Error: \t"; break;
+        case LogPriority::FatalP: FILE << "Fatal: \t"; break;
+        }
         // Date & Time
         SYSTEMTIME time;
         GetLocalTime( &time );

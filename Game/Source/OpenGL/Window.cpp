@@ -1,5 +1,5 @@
 #include "OpenGL/Window.h"
-#include "Logger.h"
+#include "BasicLogger.h"
 
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
@@ -20,9 +20,9 @@ Window::Window() {
 	m_BufferHeight = 0;
 }
 
-bool Window::Initialization( unsigned int width, unsigned int height, const char *title, int monitor, GLFWwindow *shareContents ) {
+bool Window::Initialization( unsigned int width, unsigned int height, const char *title, GLFWwindow *shareContents ) {
 	if( glfwInit() == false ) {
-		TheLogger::Instance()->LogError( (const char *)"*** GLFW failed to start up. ***" );
+		TheBasicLogger::Instance()->Log( "*** GLFW failed to start up. ***" );
 		glfwTerminate();
 		return false;
 	}
@@ -36,61 +36,29 @@ bool Window::Initialization( unsigned int width, unsigned int height, const char
 	// Grab list of monitors
 	int count;
 	GLFWmonitor **monitors = glfwGetMonitors( &count );
-	if( count < monitor ) {
-		TheLogger::Instance()->LogError( (const char *)"*** Tried to create monitor that didn't exist %u. Max monitors found was %u. ***", monitor, count );
-		return false;
-	}
-
 	const GLFWvidmode *mode = nullptr;
 
-	if( monitor == 0 ) {
-		// Primary Window setup
-		mode = glfwGetVideoMode( monitors[0] );
+	// Primary Window setup
+	mode = glfwGetVideoMode( monitors[0] );
 
-		// **********************************
-		// Add Settings here...
-		//glfwWindowHint( GLFW_DECORATED, GLFW_TRUE );
-		//glfwWindowHint( GLFW_FLOATING, GLFW_FALSE );
-		//glfwWindowHint( GLFW_AUTO_ICONIFY, GLFW_FALSE );
-		glfwWindowHint( GLFW_AUTO_ICONIFY, GLFW_TRUE );
+	// **********************************
+	// Add Settings here...
+	//glfwWindowHint( GLFW_DECORATED, GLFW_TRUE );
+	//glfwWindowHint( GLFW_FLOATING, GLFW_FALSE );
+	//glfwWindowHint( GLFW_AUTO_ICONIFY, GLFW_FALSE );
+	glfwWindowHint( GLFW_AUTO_ICONIFY, GLFW_TRUE );
 
-		glfwWindowHint( GLFW_RESIZABLE, GLFW_FALSE );
-		//glfwWindowHint( GLFW_MAXIMIZED, GLFW_TRUE );
-		glfwWindowHint( GLFW_RED_BITS, mode->redBits );
-		glfwWindowHint( GLFW_GREEN_BITS, mode->greenBits );
-		glfwWindowHint( GLFW_BLUE_BITS, mode->blueBits );
-		glfwWindowHint( GLFW_REFRESH_RATE, mode->refreshRate );
+	glfwWindowHint( GLFW_RESIZABLE, GLFW_FALSE );
+	//glfwWindowHint( GLFW_MAXIMIZED, GLFW_TRUE );
+	glfwWindowHint( GLFW_RED_BITS, mode->redBits );
+	glfwWindowHint( GLFW_GREEN_BITS, mode->greenBits );
+	glfwWindowHint( GLFW_BLUE_BITS, mode->blueBits );
+	glfwWindowHint( GLFW_REFRESH_RATE, mode->refreshRate );
 
-		m_pWindow = glfwCreateWindow( mode->width, mode->height, title, nullptr, nullptr );
-	}
-	else if( monitor == 1 ) {
-		// Secondary Window setup
-		mode = glfwGetVideoMode( monitors[1] );
-
-		// **********************************
-		// Add Settings here for secondary monitor...
-		// Duplicate anything that changes
-		glfwWindowHint( GLFW_DECORATED, GLFW_FALSE );
-		//glfwWindowHint( GLFW_FLOATING, GLFW_TRUE );
-		glfwWindowHint( GLFW_AUTO_ICONIFY, GLFW_TRUE );
-		glfwWindowHint( GLFW_RESIZABLE, GLFW_FALSE );
-		//glfwWindowHint( GLFW_MAXIMIZED, GLFW_TRUE );
-		glfwWindowHint( GLFW_RED_BITS, mode->redBits );
-		glfwWindowHint( GLFW_GREEN_BITS, mode->greenBits );
-		glfwWindowHint( GLFW_BLUE_BITS, mode->blueBits );
-		glfwWindowHint( GLFW_REFRESH_RATE, mode->refreshRate );
-
-		// Must use pointer of primary window to be able to share opengl objects between windows: objects, shaders, FBOs, etc
-		m_pWindow = glfwCreateWindow( mode->width, mode->height, title, monitors[1], shareContents );
-	}
-	else {
-		// Exit because trying to create window that shouldn't exist
-		TheLogger::Instance()->LogError( (const char *)"*** Tried to create monitor outside intended scope. ***" );
-		return false;
-	}
+	m_pWindow = glfwCreateWindow( mode->width, mode->height, title, nullptr, nullptr );
 
 	if( !m_pWindow ) {
-		TheLogger::Instance()->LogError( (const char *)"*** Window failed to be created. ***" );
+		TheBasicLogger::Instance()->Log( "*** Window failed to be created. ***" );
 		glfwTerminate();
 		return false;
 	}
@@ -105,18 +73,12 @@ bool Window::Initialization( unsigned int width, unsigned int height, const char
 	// Get buffer size information
 	glfwGetFramebufferSize( m_pWindow, &m_BufferWidth, &m_BufferHeight );
 
-	//if( monitor == 1 ) {
-	//	// Make the window always be on top
-	//	glfwSetWindowAttrib( m_pWindow, GLFW_FLOATING, GLFW_TRUE );
-	//}
 
 	// Enable OpenGL commands as everything up to this point has been GLFW
 	this->CallGlew();
 
 	// Set up callbacks on primary monitor... keyboard polling, mouse polling, etc
-	if( monitor == 0 ) {
-		CreateCallbacks();
-	}
+	CreateCallbacks();
 
 	return true;
 }
@@ -127,7 +89,7 @@ bool Window::CallGlew() {
 	// Allow modern extension features
 	glewExperimental = GL_TRUE; // Tells drivers to expose all addresses
 	if( glewInit() != GLEW_OK ) {
-		TheLogger::Instance()->LogError( (const char *)"*** GLEW failed to initalize. ***" );
+		TheBasicLogger::Instance()->Log( "*** GLEW failed to initalize. ***" );
 		glfwDestroyWindow( m_pWindow );
 		glfwTerminate();
 		return false;
@@ -174,9 +136,9 @@ void Window::CleanUp() {
 void Window::GetVersion() {
 	// Does not work unless CallGlew GLEW has been called...
 	#ifdef _DEBUG
-		TheLogger::Instance()->Printf_ntstamp( (const char *)glGetString( GL_VENDOR ) );
-		TheLogger::Instance()->Printf_ntstamp( (const char *)glGetString( GL_RENDERER ) );
-		TheLogger::Instance()->Printf_ntstamp( (const char *)glGetString( GL_VERSION ) );
+		TheBasicLogger::Instance()->Log( (const char *)glGetString( GL_VENDOR ) );
+		TheBasicLogger::Instance()->Log( (const char *)glGetString( GL_RENDERER ) );
+		TheBasicLogger::Instance()->Log( (const char *)glGetString( GL_VERSION ) );
 	#endif
 }
 
@@ -242,18 +204,15 @@ void Window::HandleKeys( GLFWwindow *window,
 	if( ( key >= 0 ) && ( key < 1024 ) ) {
 		if( action == GLFW_PRESS ) {
 			theWindow->m_bKeys[key] = true;
-#ifdef _DEBUG
-			std::cout << "Pressed " << key << std::endl; // Trouble Shooting Code
-			TheLogger::Instance()->LogError( (const char *)"*** Pressed %c. ***", (const char *)key );
-			TheLogger::Instance()->LogError( (const char *)"*** Pressed %i. ***", (const unsigned int *)key );
-#endif
+			#ifdef _DEBUG
+				std::cout << "Pressed " << key << std::endl; // Trouble Shooting Code
+			#endif
 		}
 		else if( action == GLFW_RELEASE ) {
 			theWindow->m_bKeys[key] = false;
-#ifdef _DEBUG
-			std::cout << "Released " << key << std::endl; // Trouble Shooting Code
-			TheLogger::Instance()->LogError( (const char *)"*** Released %i. ***",(const signed int *)key );
-#endif
+			#ifdef _DEBUG
+				std::cout << "Released " << key << std::endl; // Trouble Shooting Code
+			#endif
 		}
 	}
 

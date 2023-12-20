@@ -27,6 +27,7 @@ public:
     void Open( const char *path );
     void SetVerbosity( LogPriority newPriority );
     void Log( const char *message, LogPriority priority = LogPriority::TraceP );
+    void LogTime( const char *message, LogPriority priority = LogPriority::TraceP );
 private:
     BasicLogger();
     ~BasicLogger() {}

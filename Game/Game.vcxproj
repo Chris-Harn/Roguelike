@@ -12,7 +12,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\BasicLogger.cpp" />
-    <ClCompile Include="Source\Logger.cpp" />
     <ClCompile Include="Source\Engine.cpp" />
     <ClCompile Include="Source\LoaderParams.cpp" />
     <ClCompile Include="Source\GameObject.cpp" />
@@ -25,7 +24,6 @@
     <ClInclude Include="Include\GameObject.h" />
     <ClInclude Include="Include\LoaderParams.h" />
     <ClInclude Include="Include\OpenGL\Window.h" />
-    <ClInclude Include="Include\Logger.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

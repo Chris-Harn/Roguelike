@@ -8,7 +8,7 @@ public:
 	Window();
 	~Window() {}
 	// Initialization creates a window using GLFW, and sets up the Callbacks (keyboard, mouse support). No GLEW.
-	bool Initialization( unsigned int width, unsigned int height, const char *title, int monitor, GLFWwindow *shareContents );
+	bool Initialization( unsigned int width, unsigned int height, const char *title, GLFWwindow *shareContents );
 	bool CallGlew();
 	void MakeCurrentContext();
 	void HideWindow( bool hide );
