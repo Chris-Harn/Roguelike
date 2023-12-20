@@ -1,5 +1,5 @@
 #include "OpenGL/Window.h"
-#include "BasicLogger.h"
+#include "Logger.h"
 
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
@@ -22,7 +22,7 @@ Window::Window() {
 
 bool Window::Initialization( unsigned int width, unsigned int height, const char *title, GLFWwindow *shareContents ) {
 	if( glfwInit() == false ) {
-		TheBasicLogger::Instance()->Log( "*** GLFW failed to start up. ***" );
+		TheLogger::Instance()->Log( "*** GLFW failed to start up. ***", LogPriority::ErrorP );
 		glfwTerminate();
 		return false;
 	}
@@ -42,14 +42,8 @@ bool Window::Initialization( unsigned int width, unsigned int height, const char
 	mode = glfwGetVideoMode( monitors[0] );
 
 	// **********************************
-	// Add Settings here...
-	//glfwWindowHint( GLFW_DECORATED, GLFW_TRUE );
-	//glfwWindowHint( GLFW_FLOATING, GLFW_FALSE );
-	//glfwWindowHint( GLFW_AUTO_ICONIFY, GLFW_FALSE );
 	glfwWindowHint( GLFW_AUTO_ICONIFY, GLFW_TRUE );
-
 	glfwWindowHint( GLFW_RESIZABLE, GLFW_FALSE );
-	//glfwWindowHint( GLFW_MAXIMIZED, GLFW_TRUE );
 	glfwWindowHint( GLFW_RED_BITS, mode->redBits );
 	glfwWindowHint( GLFW_GREEN_BITS, mode->greenBits );
 	glfwWindowHint( GLFW_BLUE_BITS, mode->blueBits );
@@ -57,8 +51,10 @@ bool Window::Initialization( unsigned int width, unsigned int height, const char
 
 	m_pWindow = glfwCreateWindow( mode->width, mode->height, title, nullptr, nullptr );
 
+	TheLogger::Instance()->Log( std::ostringstream{} << "Hello world! " << mode->width << mode->height << " Testing..." );
+
 	if( !m_pWindow ) {
-		TheBasicLogger::Instance()->Log( "*** Window failed to be created. ***" );
+		TheLogger::Instance()->Log( "*** Window failed to be created. ***", LogPriority::ErrorP );
 		glfwTerminate();
 		return false;
 	}
@@ -89,7 +85,7 @@ bool Window::CallGlew() {
 	// Allow modern extension features
 	glewExperimental = GL_TRUE; // Tells drivers to expose all addresses
 	if( glewInit() != GLEW_OK ) {
-		TheBasicLogger::Instance()->Log( "*** GLEW failed to initalize. ***" );
+		TheLogger::Instance()->Log( "*** GLEW failed to initalize. ***", LogPriority::ErrorP );
 		glfwDestroyWindow( m_pWindow );
 		glfwTerminate();
 		return false;
@@ -136,9 +132,9 @@ void Window::CleanUp() {
 void Window::GetVersion() {
 	// Does not work unless CallGlew GLEW has been called...
 	#ifdef _DEBUG
-		TheBasicLogger::Instance()->Log( (const char *)glGetString( GL_VENDOR ) );
-		TheBasicLogger::Instance()->Log( (const char *)glGetString( GL_RENDERER ) );
-		TheBasicLogger::Instance()->Log( (const char *)glGetString( GL_VERSION ) );
+		TheLogger::Instance()->LogTime( (const char *)glGetString( GL_VENDOR ) );
+		TheLogger::Instance()->LogTime( (const char *)glGetString( GL_RENDERER ) );
+		TheLogger::Instance()->LogTime( (const char *)glGetString( GL_VERSION ) );
 	#endif
 }
 
@@ -206,12 +202,14 @@ void Window::HandleKeys( GLFWwindow *window,
 			theWindow->m_bKeys[key] = true;
 			#ifdef _DEBUG
 				std::cout << "Pressed " << key << std::endl; // Trouble Shooting Code
+				TheLogger::Instance()->Log( std::ostringstream{} << "Pressed " << key );
 			#endif
 		}
 		else if( action == GLFW_RELEASE ) {
 			theWindow->m_bKeys[key] = false;
 			#ifdef _DEBUG
 				std::cout << "Released " << key << std::endl; // Trouble Shooting Code
+				TheLogger::Instance()->Log( std::ostringstream{} << "Released " << key );
 			#endif
 		}
 	}

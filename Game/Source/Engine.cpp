@@ -1,6 +1,6 @@
 #include "Engine.h"
 
-#include "BasicLogger.h"
+#include "Logger.h"
 
 #include <iostream> // std::bac_alloc
 
@@ -18,14 +18,14 @@ bool Engine::Init( const char *title, int windowWidth, int windowHeight, int tar
 	try { m_pWindow = new Window(); }
 	catch( const std::bad_alloc &e ) {
 		(void)e;
-		TheBasicLogger::Instance()->Log( "*** Window failed to have memory allocated. ***" );
+		TheLogger::Instance()->Log( "*** Window failed to have memory allocated. ***", LogPriority::ErrorP );
 		return false;
 	}
 	if( m_pWindow->Initialization( windowWidth,
 		windowHeight,
 		title,
 		nullptr ) == false ) {
-		TheBasicLogger::Instance()->Log( "*** Exited Program ***" );
+		TheLogger::Instance()->Log( "*** Exited Program ***", LogPriority::FatalP );
 		return false;
 	}
 	m_pWindow->GetVersion();
@@ -55,7 +55,6 @@ void Engine::Render() {
 }
 
 void Engine::CleanUp() {
-	// Clean up main window first
 	m_pWindow->MakeCurrentContext();
 	m_pWindow->CleanUp();
 }

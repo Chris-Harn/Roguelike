@@ -1,3 +1,33 @@
 Trace: 	Intel
 Trace: 	Intel(R) Iris(R) Xe Graphics
 Trace: 	4.6.0 - Build 31.0.101.4575
+Info: 	 [2023.12.20  7:47:45.567] Intel
+Info: 	 [2023.12.20  7:47:45.568] Intel(R) Iris(R) Xe Graphics
+Info: 	 [2023.12.20  7:47:45.568] 4.6.0 - Build 31.0.101.4575
+Info: 	 [2023.12.20  7:52:56.097] Intel
+Info: 	 [2023.12.20  7:52:56.097] Intel(R) Iris(R) Xe Graphics
+Info: 	 [2023.12.20  7:52:56.098] 4.6.0 - Build 31.0.101.4575
+Info: 	Hello world! 19201080 Testing...
+Info: 	 [2023.12.20  8:27:09.496] Intel
+Info: 	 [2023.12.20  8:27:09.497] Intel(R) Iris(R) Xe Graphics
+Info: 	 [2023.12.20  8:27:09.497] 4.6.0 - Build 31.0.101.4575
+Info: 	Hello world! 19201080 Testing...
+Info: 	 [2023.12.20  8:28:02.901] Intel
+Info: 	 [2023.12.20  8:28:02.901] Intel(R) Iris(R) Xe Graphics
+Info: 	 [2023.12.20  8:28:02.901] 4.6.0 - Build 31.0.101.4575
+Info: 	Pressed 256
+Info: 	Hello world! 19201080 Testing...
+Info: 	 [2023.12.20  8:53:58.751] Intel
+Info: 	 [2023.12.20  8:53:58.751] Intel(R) Iris(R) Xe Graphics
+Info: 	 [2023.12.20  8:53:58.751] 4.6.0 - Build 31.0.101.4575
+Info: 	Pressed 83
+Info: 	Pressed 68
+Info: 	Pressed 70
+Info: 	Released 83
+Info: 	Released 68
+Info: 	Pressed 68
+Info: 	Pressed 83
+Info: 	Released 70
+Info: 	Released 68
+Info: 	Released 83
+Info: 	Pressed 256
