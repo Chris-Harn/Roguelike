@@ -17,7 +17,7 @@ Engine::Engine() {
 
 bool Engine::Init( const char *title, int windowWidth, int windowHeight, int targetFps ) {
 	std::cout << "Inside Init." << std::endl;
-	TheBasicLogger::Instance()->Log( LogPriority::TraceP, "Inside Init." );
+	TheBasicLogger::Instance()->Log( "Inside Init." );
 
 	try { m_pWindow = new Window(); }
 	catch( const std::bad_alloc &e ) {

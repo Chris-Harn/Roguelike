@@ -1,7 +1,10 @@
 #include "BasicLogger.h"
 
-#include <fstream>  // std::ofstream
-#include <iostream> // std::cout, std::endl
+#include <fstream>    // std::ofstream
+#include <iostream>   // std::cout, std::endl
+#include <iomanip>    // std::setfill, std::setw 
+#include <Windows.h>  // SYSTEMTIME, GetLocalTime
+
 
 BasicLogger *BasicLogger::s_pInstance = 0;
 
@@ -18,9 +21,8 @@ void BasicLogger::SetVerbosity( LogPriority newPriority ) {
     m_verbosity = newPriority;
 }
 
-void BasicLogger::Log( LogPriority priority, const char *message ) {
+void BasicLogger::Log( const char *message, LogPriority priority ) {
     if( priority >= m_verbosity ) {
-        //std::ofstream FILE( "log.txt", std::ios_base::app );
         std::ofstream FILE( m_filepath, std::ios_base::app );
         switch( priority ) {
         case LogPriority::TraceP: FILE << "Trace: \t"; break;
@@ -30,6 +32,17 @@ void BasicLogger::Log( LogPriority priority, const char *message ) {
         case LogPriority::ErrorP: FILE << "Error: \t"; break;
         case LogPriority::FatalP: FILE << "Fatal: \t"; break;
         }
+        // Date & Time
+        SYSTEMTIME time;
+        GetLocalTime( &time );
+
+        FILE << " [" << time.wYear << '.'
+            << std::setfill( '0' ) << std::setw( 2 ) << time.wMonth << '.'
+            << std::setfill( '0' ) << std::setw( 2 ) << time.wDay << ' '
+            << std::setfill( ' ' ) << std::setw( 2 ) << time.wHour << ':'
+            << std::setfill( '0' ) << std::setw( 2 ) << time.wMinute << ':'
+            << std::setfill( '0' ) << std::setw( 2 ) << time.wSecond << '.'
+            << std::setfill( '0' ) << std::setw( 3 ) << time.wMilliseconds << "] ";
 
         FILE << message << std::endl;
         FILE.close();
